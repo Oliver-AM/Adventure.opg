@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Player {
 
     private Room currentRoom;
-
     private ArrayList<Item> inventory = new ArrayList<>();
+    private int health = 100;
 
     public Player(Room startRoom) {
         currentRoom = startRoom;
@@ -12,6 +12,10 @@ public class Player {
 
     public Room getCurrentRoom() {
         return currentRoom;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     public boolean moveNorth() {
@@ -91,4 +95,39 @@ public class Player {
         return null;
     }
 
+    public EatResult eat(String shortName) {
+
+        Item item = findItem(shortName);
+
+        if (item == null) {
+            item = currentRoom.findItem(shortName);
+        }
+
+        if (item == null) {
+            return EatResult.NOT_FOUND;
+        }
+
+        if (!(item instanceof Food)) {
+            return EatResult.NOT_FOOD;
+        }
+
+        Food food = (Food) item;
+        health = health + food.getHealthPoints();
+
+        inventory.remove(item);
+        currentRoom.removeItem(item);
+
+        return EatResult.EATEN;
+    }
+
+    public Item findItemAnywhere(String shortName) {
+
+        Item item = findItem(shortName);
+
+        if (item == null) {
+            item = currentRoom.findItem(shortName);
+        }
+
+        return item;
+    }
 }

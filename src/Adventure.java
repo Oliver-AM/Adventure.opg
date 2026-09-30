@@ -36,6 +36,10 @@ public class Adventure {
                 ui.printInventory(player);
             }
 
+            else if (command.equals("health")) {
+                ui.printHealth(player);
+            }
+
             else if (command.startsWith("take ")) {
 
                 String itemName = command.substring(5);
@@ -61,6 +65,27 @@ public class Adventure {
                 }
                 else {
                     ui.printCannotDrop(itemName);
+                }
+            }
+
+            else if (command.startsWith("eat ")) {
+
+                String itemName = command.substring(4);
+
+                Item item = player.findItemAnywhere(itemName);
+
+                EatResult result = player.eat(itemName);
+
+                if (result == EatResult.NOT_FOUND) {
+                    ui.printCannotEat(itemName);
+                }
+
+                else if (result == EatResult.NOT_FOOD) {
+                    ui.printNotFood(item);
+                }
+
+                else if (result == EatResult.EATEN) {
+                    ui.printEaten((Food) item);
                 }
             }
 
@@ -101,8 +126,6 @@ public class Adventure {
             }
         }
 
-        IO.println("Goodbye!");
+        ui.printGoodbye();
     }
-
-
 }

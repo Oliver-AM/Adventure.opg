@@ -75,6 +75,12 @@ public class Map {
 
         room8.addItem(new Item("book", "an old book"));
 
+        Food bread = new Food("bread", "a loaf of bread", 10);
+        Food mushroom = new Food("mushroom", "a mysterious glowing mushroom", -50);
+
+        room1.addItem(bread);
+        room2.addItem(mushroom);
+
         startRoom = room1;
     }
 

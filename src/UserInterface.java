@@ -34,6 +34,10 @@ public class UserInterface {
         }
     }
 
+    public void printHealth(Player player) {
+        IO.println("health: " + player.getHealth());
+    }
+
     public void printTaken(Item item) {
         IO.println("You have taken " + item.getLongName());
     }
@@ -54,6 +58,18 @@ public class UserInterface {
         IO.println("You cannot go that way");
     }
 
+    public void printCannotEat(String itemName) {
+        IO.println("There is nothing like " + itemName + " to eat around here");
+    }
+
+    public void printNotFood(Item item) {
+        IO.println("You cannot eat the " + item.getLongName());
+    }
+
+    public void printEaten(Food food) {
+        IO.println("You eat the " + food.getLongName());
+    }
+
     public void printHelp() {
         IO.println("Available commands:");
         IO.println("go north");
@@ -64,11 +80,17 @@ public class UserInterface {
         IO.println("inventory");
         IO.println("take <item>");
         IO.println("drop <item>");
+        IO.println("health");
+        IO.println("eat <item>");
         IO.println("help");
         IO.println("exit");
     }
 
     public void printUnknownCommand() {
         IO.println("I don't understand that command.");
+    }
+
+    public void printGoodbye() {
+        IO.println("Goodbye!");
     }
 }
