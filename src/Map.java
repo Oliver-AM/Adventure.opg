@@ -73,6 +73,9 @@ public class Map {
 
         room5.addItem(new Item("sword", "an old sword"));
 
+        room5.addItem(new MeleeWeapon("sword", "a rusty sword"));
+        room5.addItem(new RangedWeapon("revolver", "a dusty revolver", 6));
+
         room8.addItem(new Item("book", "an old book"));
 
         Food bread = new Food("bread", "a loaf of bread", 10);

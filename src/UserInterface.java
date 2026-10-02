@@ -24,13 +24,17 @@ public class UserInterface {
 
         if (player.getInventory().isEmpty()) {
             IO.println("You are not carrying anything.");
-            return;
+        }
+        else {
+            IO.println("You are carrying:");
+
+            for (Item item : player.getInventory()) {
+                IO.println(item.getLongName());
+            }
         }
 
-        IO.println("You are carrying:");
-
-        for (Item item : player.getInventory()) {
-            IO.println(item.getLongName());
+        if (player.getEquippedWeapon() != null) {
+            IO.println("Equipped: " + player.getEquippedWeapon().getLongName());
         }
     }
 
@@ -84,6 +88,8 @@ public class UserInterface {
         IO.println("eat <item>");
         IO.println("help");
         IO.println("exit");
+        IO.println("equip <weapon>");
+        IO.println("attack");
     }
 
     public void printUnknownCommand() {
@@ -92,5 +98,35 @@ public class UserInterface {
 
     public void printGoodbye() {
         IO.println("Goodbye!");
+    }
+
+    public void printEquipNotFound(String itemName) {
+        IO.println("You don't have anything like " + itemName + " in your inventory");
+    }
+
+    public void printNotWeapon(Item item) {
+        IO.println(item.getLongName() + " is not a weapon");
+    }
+
+    public void printEquipped(Item item) {
+        IO.println("You have equipped " + item.getLongName());
+    }
+
+    public void printNoWeapon() {
+        IO.println("You have no weapon equipped.");
+    }
+
+    public void printCannotAttack() {
+        IO.println("You cannot attack with your weapon.");
+    }
+
+    public void printAttack(Weapon weapon, int remainingUses) {
+
+        if (remainingUses == -1) {
+            IO.println("You swing the " + weapon.getLongName() + " at the empty air.");
+        }
+        else {
+            IO.println("You fire the " + weapon.getLongName() + " into the empty air. " + remainingUses + " shots left.");
+        }
     }
 }

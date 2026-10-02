@@ -40,6 +40,44 @@ public class Adventure {
                 ui.printHealth(player);
             }
 
+            else if (command.equals("attack")) {
+
+                AttackResult result = player.attack();
+
+                if (result == AttackResult.NO_WEAPON) {
+                    ui.printNoWeapon();
+                }
+
+                else if (result == AttackResult.CANNOT_USE) {
+                    ui.printCannotAttack();
+                }
+
+                else if (result == AttackResult.USED) {
+                    ui.printAttack(player.getEquippedWeapon(), player.getLastAttackUses());
+                }
+            }
+
+            else if (command.startsWith("equip ")) {
+
+                String itemName = command.substring(6);
+
+                Item item = player.findItem(itemName);
+
+                EquipResult result = player.equip(itemName);
+
+                if (result == EquipResult.NOT_FOUND) {
+                    ui.printEquipNotFound(itemName);
+                }
+
+                else if (result == EquipResult.NOT_WEAPON) {
+                    ui.printNotWeapon(item);
+                }
+
+                else if (result == EquipResult.EQUIPPED) {
+                    ui.printEquipped(item);
+                }
+            }
+
             else if (command.startsWith("take ")) {
 
                 String itemName = command.substring(5);

@@ -14,4 +14,8 @@ public class Item {
     public String getLongName() {
         return longName;
     }
+
+    public Weapon getWeapon() {
+        return null;
+    }
 }
