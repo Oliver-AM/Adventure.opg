@@ -40,20 +40,53 @@ public class Adventure {
                 ui.printHealth(player);
             }
 
-            else if (command.equals("attack")) {
+            else if (command.equals("attack") || command.startsWith("attack ")) {
+                Enemy enemy;
 
-                AttackResult result = player.attack();
+                if (command.equals("attack")) {
+                    enemy = player.getFirstEnemy();
+                } else {
+                    String enemyName = command.substring(7);
+                    enemy = player.findEnemy(enemyName);
 
-                if (result == AttackResult.NO_WEAPON) {
-                    ui.printNoWeapon();
+                    if (enemy == null) {
+                        ui.printCannotAttackEnemy(enemyName);
+                        continue;
+                    }
                 }
 
-                else if (result == AttackResult.CANNOT_USE) {
-                    ui.printCannotAttack();
-                }
+                if (enemy == null) {
+                    AttackResult result = player.attack();
 
-                else if (result == AttackResult.USED) {
-                    ui.printAttack(player.getEquippedWeapon(), player.getLastAttackUses());
+                    if (result == AttackResult.NO_WEAPON) {
+                        ui.printNoWeapon();
+                    } else if (result == AttackResult.CANNOT_USE) {
+                        ui.printCannotAttack();
+                    } else if (result == AttackResult.USED) {
+                        ui.printAttack(player.getEquippedWeapon(), player.getLastAttackUses());
+                    }
+                } else {
+                    AttackResult result = player.attack(enemy);
+
+                    if (result == AttackResult.NO_WEAPON) {
+                        ui.printNoWeapon();
+                    } else if (result == AttackResult.CANNOT_USE) {
+                        ui.printCannotAttack();
+                    } else if (result == AttackResult.ENEMY_DIED) {
+                        ui.printEnemyDied(enemy);
+                        enemy.die();
+                    } else if (result == AttackResult.HIT) {
+                        ui.printEnemyHit(enemy, player.getEquippedWeapon());
+
+                        boolean playerDied = enemy.attackPlayer(player);
+
+                        if (playerDied) {
+                            ui.printPlayerDied();
+                            running = false;
+                        } else {
+                            ui.printEnemyAttack(enemy, player);
+                        }
+                    }
                 }
             }
 
@@ -124,6 +157,11 @@ public class Adventure {
 
                 else if (result == EatResult.EATEN) {
                     ui.printEaten((Food) item);
+
+                    if (player.getHealth() <= 0) {
+                        ui.printPlayerDied();
+                        running = false;
+                    }
                 }
             }
 

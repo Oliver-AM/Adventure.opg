@@ -6,17 +6,23 @@ public class UserInterface {
 
     public void printRoom(Room room) {
 
-        IO.println("You are in " + room.getName());
+        IO.println(room.getName());
         IO.println(room.getDescription());
 
-        if (room.getItems().isEmpty()) {
-            return;
+        if (!room.getItems().isEmpty()) {
+            IO.println("Here you see:");
+
+            for (Item item : room.getItems()) {
+                IO.println(item.getLongName());
+            }
         }
 
-        IO.println("Here you see:");
+        if (!room.getEnemies().isEmpty()) {
+            IO.println("Beware! Here lurks:");
 
-        for (Item item : room.getItems()) {
-            IO.println(item.getLongName());
+            for (Enemy enemy : room.getEnemies()) {
+                IO.println(enemy.getLongName());
+            }
         }
     }
 
@@ -128,5 +134,25 @@ public class UserInterface {
         else {
             IO.println("You fire the " + weapon.getLongName() + " into the empty air. " + remainingUses + " shots left.");
         }
+    }
+
+    public void printCannotAttackEnemy(String enemyName) {
+        IO.println("There is no enemy like " + enemyName + " here.");
+    }
+
+    public void printEnemyHit(Enemy enemy, Weapon weapon) {
+        IO.println("You hit the " + enemy.getLongName() + " with the " + weapon.getLongName() + " for " + weapon.getDamage() + " damage.");
+    }
+
+    public void printEnemyDied(Enemy enemy) {
+        IO.println("The " + enemy.getLongName() + " dies, dropping its " + enemy.getWeapon().getLongName() + ".");
+    }
+
+    public void printEnemyAttack(Enemy enemy, Player player) {
+        IO.println("The " + enemy.getLongName() + " attacks you with its " + enemy.getWeapon().getLongName() + " for " + enemy.getWeapon().getDamage() + " damage.");
+    }
+
+    public void printPlayerDied() {
+        IO.println("You have died.");
     }
 }

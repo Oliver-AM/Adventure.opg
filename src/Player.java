@@ -161,6 +161,19 @@ public class Player {
     }
 
     public AttackResult attack() {
+        if (equippedWeapon == null) {
+            return AttackResult.NO_WEAPON;
+        }
+
+        if (!equippedWeapon.canUse()) {
+            return AttackResult.CANNOT_USE;
+        }
+
+        lastAttackUses = equippedWeapon.use();
+        return AttackResult.USED;
+    }
+
+    public AttackResult attack(Enemy enemy) {
 
         if (equippedWeapon == null) {
             return AttackResult.NO_WEAPON;
@@ -172,10 +185,27 @@ public class Player {
 
         lastAttackUses = equippedWeapon.use();
 
-        return AttackResult.USED;
-    }
+        if (enemy.hit(equippedWeapon.getDamage())) {
+            return AttackResult.ENEMY_DIED;
+        }
 
+        return AttackResult.HIT;
+    }
     public int getLastAttackUses() {
         return lastAttackUses;
+    }
+
+    public boolean hit(int damage) {
+        health = health - damage;
+        return health <= 0;
+    }
+
+    public Enemy findEnemy(String shortName) {
+
+        return currentRoom.findEnemy(shortName);
+    }
+
+    public Enemy getFirstEnemy() {
+        return currentRoom.getFirstEnemy();
     }
 }

@@ -73,8 +73,8 @@ public class Map {
 
         room5.addItem(new Item("sword", "an old sword"));
 
-        room5.addItem(new MeleeWeapon("sword", "a rusty sword"));
-        room5.addItem(new RangedWeapon("revolver", "a dusty revolver", 6));
+        room5.addItem(new MeleeWeapon("sword", "a rusty sword", 12));
+        room5.addItem(new RangedWeapon("revolver", "an old revolver", 8, 6));
 
         room8.addItem(new Item("book", "an old book"));
 
@@ -83,6 +83,16 @@ public class Map {
 
         room1.addItem(bread);
         room2.addItem(mushroom);
+
+        Enemy troll = new Enemy(
+                "troll",
+                "a cave troll",
+                "A large and dangerous cave troll.",
+                24,
+                new MeleeWeapon("club", "a wooden club", 20),
+                room5);
+
+        room5.addEnemy(troll);
 
         startRoom = room1;
     }

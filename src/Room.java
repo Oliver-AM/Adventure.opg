@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Room {
+
     private String name;
     private String description;
 
@@ -9,11 +10,14 @@ public class Room {
     private Room south;
     private Room west;
 
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Item> items;
+    private ArrayList<Enemy> enemies;
 
     public Room(String name, String description) {
         this.name = name;
         this.description = description;
+        items = new ArrayList<>();
+        enemies = new ArrayList<>();
     }
 
     public String getName() {
@@ -24,36 +28,36 @@ public class Room {
         return description;
     }
 
-    public void setNorth(Room room) {
-        north = room;
-    }
-
     public Room getNorth() {
         return north;
-    }
-
-    public void setEast(Room room) {
-        east = room;
     }
 
     public Room getEast() {
         return east;
     }
 
-    public void setSouth(Room room) {
-        south = room;
-    }
-
     public Room getSouth() {
         return south;
     }
 
-    public void setWest(Room room) {
-        west = room;
-    }
-
     public Room getWest() {
         return west;
+    }
+
+    public void setNorth(Room north) {
+        this.north = north;
+    }
+
+    public void setEast(Room east) {
+        this.east = east;
+    }
+
+    public void setSouth(Room south) {
+        this.south = south;
+    }
+
+    public void setWest(Room west) {
+        this.west = west;
     }
 
     public void addItem(Item item) {
@@ -69,7 +73,6 @@ public class Room {
     }
 
     public Item findItem(String shortName) {
-
         for (Item item : items) {
             if (item.getShortName().equals(shortName)) {
                 return item;
@@ -77,5 +80,37 @@ public class Room {
         }
 
         return null;
+    }
+
+    public Enemy findEnemy(String shortName) {
+
+        for (Enemy enemy : enemies) {
+            if (enemy.getShortName().equals(shortName)) {
+                return enemy;
+            }
+        }
+
+        return null;
+    }
+
+    public void addEnemy(Enemy enemy) {
+        enemies.add(enemy);
+    }
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public Enemy getFirstEnemy() {
+
+        if (enemies.isEmpty()) {
+            return null;
+        }
+
+        return enemies.get(0);
     }
 }
